@@ -102,15 +102,29 @@
 	// 보여줄 맵 저장
 	Map<String, Object> target = null;
 
-	int id = Integer.valueOf(request.getParameter("id"));
-	for (Map<String, Object> item : musicList) {
-		if (id == (int)item.get("id")) {
-			target = item;
-			break;
+	// 1. id (a 태그)
+	if (request.getParameter("id") != null) {
+		int id = Integer.valueOf(request.getParameter("id"));
+		for (Map<String, Object> item : musicList) {
+			if (id == (int)item.get("id")) {
+				target = item;
+				break;
+			}
 		}
 	}
 	
-	out.print(target);
+	// 2. search (form 태그)
+	if (request.getParameter("search") != null) {
+		String search = request.getParameter("search");
+		for (Map<String, Object> item : musicList) {
+			if (search.equals(item.get("title"))) {
+				target = item;
+				break;
+			}
+		}
+	}
+	
+	//out.print(target);
 %>
 	<div id="wrap" class="container">
 		<header class="d-flex align-items-center">
@@ -121,12 +135,14 @@
 			
 			<!-- 검색 -->
 			<div class="col-10">
-				<div class="input-group">
-					<input type="text" class="form-control col-6">
-					<div class="input-group-append">
-						<button class="btn btn-info" type="button">검색</button>
+				<form method="get" action="/lesson02/quiz10_info.jsp">
+					<div class="input-group">
+						<input type="text" class="form-control col-6" name="search">
+						<div class="input-group-append">
+							<button class="btn btn-info" type="submit">검색</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</header>
 		<nav>
@@ -139,6 +155,9 @@
 			</ul>
 		</nav>
 		<section class="contents">
+		<%
+			if (target != null) {
+		%>
 			<!-- 곡 정보 영역 -->
 			<h4 class="mt-3">곡 정보</h4>
 			<div class="d-flex border border-success p-3">
@@ -171,6 +190,13 @@
 				<hr>
 				<div>가사 정보 없음</div>
 			</div>
+			<%
+			} else {
+			%>
+			검색된 결과 없음
+			<%
+			}
+			%>
 		</section>
 		<hr>
 		<footer>

@@ -107,12 +107,14 @@
 			
 			<!-- 검색 -->
 			<div class="col-10">
-				<div class="input-group">
-					<input type="text" class="form-control col-6">
-					<div class="input-group-append">
-						<button class="btn btn-info" type="button">검색</button>
+				<form method="get" action="/lesson02/quiz10_info.jsp">
+					<div class="input-group">
+						<input type="text" class="form-control col-6" name="search">
+						<div class="input-group-append">
+							<button class="btn btn-info" type="submit">검색</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</header>
 		<nav>
